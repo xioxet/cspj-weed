@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Comments</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+        h1 {
+            color: #333;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f5f5f5;
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        strong {
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>Comments</h1>
+
+
+    <form method="post" action="{% url 'comments' %}">
+        {% csrf_token %}
+        <textarea name="text" required></textarea>
+        <button type="submit">Submit Comment</button>
+    </form>
+    
+    <ul>
+        {% for comment in comments %}
+        <li>
+            <p><strong>{{ comment.user }}</strong></p>
+            <p>{{ comment.text }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
