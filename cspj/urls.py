@@ -20,6 +20,8 @@ from django.contrib.auth import views as auth_views
 from polls import views
 from polls.views import profile
 from polls.views import comments
+from django.conf.urls.static import static
+from django.conf import settings
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
@@ -31,3 +33,6 @@ urlpatterns = [
     path('accounts/profile/', profile, name='profile'),
     path('comments/', comments, name='comments')
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

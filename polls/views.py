@@ -4,7 +4,11 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
-from .models import Comment
+from .models import Comment, UploadedFile
+from .forms import UploadFileForm
+from django.views.decorators.csrf import csrf_exempt
+
+
 
 def index(request):
     return HttpResponse("meep morp :3")
@@ -38,3 +42,13 @@ def comments(request):
 
     return render(request, 'comments.html', {'comments': comments})
 
+@csrf_exempt
+def upload_file(request):
+    if request.method == 'POST':
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('polls:upload_file')
+    else:
+        form = UploadFileForm()
+    return render(request, 'file_upload/upload.html', {'form': form})
