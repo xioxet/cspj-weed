@@ -31,10 +31,15 @@
 
 
     <form method="post" action="{% url 'comments' %}">
-        {% csrf_token %}
         <textarea name="text" required></textarea>
         <button type="submit">Submit Comment</button>
     </form>
+
+    <form method="get" action="{% url 'comments' %}">
+        <input type="text" name="q" value="{{ search_query }}" placeholder="Search comments">
+        <button type="submit">Search</button>
+    </form>
+    
     
     <ul>
         {% for comment in comments %}
