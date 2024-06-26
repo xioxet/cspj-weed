@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Comments</title>
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -11,43 +13,65 @@
         h1 {
             color: #333;
         }
-        ul {
+        .comment-list {
             list-style-type: none;
             padding: 0;
         }
-        li {
+        .comment-item {
             background-color: #f5f5f5;
             padding: 10px;
             margin-bottom: 10px;
             border-radius: 5px;
         }
-        strong {
+        .comment-user {
             font-weight: bold;
+        }
+        .search-form {
+            margin-bottom: 20px;
         }
     </style>
 </head>
 <body>
-    <h1>Comments</h1>
+    <div class="container">
+        <h1 class="mt-4 mb-4">Comments</h1>
 
+        <!-- Comment Form -->
+        <form method="post" action="{% url 'comments' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="commentText">Comment:</label>
+                <textarea class="form-control" id="commentText" name="text" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">Submit Comment</button>
+        </form>
 
-    <form method="post" action="{% url 'comments' %}">
-        <textarea name="text" required></textarea>
-        <button type="submit">Submit Comment</button>
-    </form>
+        <!-- Search Form -->
+        <form method="get" action="{% url 'comments' %}" class="search-form">
+            <div class="form-group">
+                <label for="searchQuery">Search comments:</label>
+                <div class="input-group">
+                    <input type="text" class="form-control" id="searchQuery" name="q" value="{{ search_query }}" placeholder="Enter search term">
+                    <div class="input-group-append">
+                        <button type="submit" class="btn btn-outline-secondary">Search</button>
+                    </div>
+                </div>
+            </div>
+        </form>
 
-    <form method="get" action="{% url 'comments' %}">
-        <input type="text" name="q" value="{{ search_query }}" placeholder="Search comments">
-        <button type="submit">Search</button>
-    </form>
-    
-    
-    <ul>
-        {% for comment in comments %}
-        <li>
-            <p><strong>{{ comment.user }}</strong></p>
-            <p>{{ comment.text }}</p>
-        </li>
-        {% endfor %}
-    </ul>
+        <!-- Comments List -->
+        <ul class="comment-list">
+            {% for comment in comments %}
+            <li class="comment-item">
+                <p class="comment-user"><strong>{{ comment.user }}</strong></p>
+                <p>{{ comment.text }}</p>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <!-- Bootstrap JS and dependencies (not necessary for forms, but included for completeness) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

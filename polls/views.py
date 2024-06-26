@@ -1,14 +1,18 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from django.utils.safestring import mark_safe
 from .models import Comment, UploadedFile
 from .forms import UploadFileForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
+from .forms import UserCreationForm, UserChangeForm
+from .models import customuser
+
 import os
+
 
 def index(request):
     return 'ermmm'
@@ -18,17 +22,28 @@ def register(request):
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
-            return redirect('login')
+            email = form.cleaned_data.get('email')
+            password = form.cleaned_data.get('password1')
+            user = authenticate(email=email, password=password)
+            login(request, user)
+            return redirect('profile')
     else:
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-@login_required
-def profile(request):
-    username = request.user.username
-    return render(request, 'profile.html', {'username': username})
-
 @csrf_exempt
+def profile(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+    if request.method == 'POST':
+        form = UserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = UserChangeForm(instance=request.user)
+    return render(request, 'profile.html', {'form': form})
+    
 def comments(request):
     if request.method == 'POST':
         text = request.POST.get('text', '')  # Fetch the comment text from the form
