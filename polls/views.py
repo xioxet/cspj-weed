@@ -31,7 +31,6 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
-@csrf_exempt
 def profile(request):
     if not request.user.is_authenticated:
         return redirect('login')
@@ -80,7 +79,6 @@ def comments(request):
 
     return render(request, 'comments.html', {'comments': comments, 'search_query': search_query})
 
-@csrf_exempt
 def upload_file(request):
     if request.method == 'POST':
         form = UploadFileForm(request.POST, request.FILES)
