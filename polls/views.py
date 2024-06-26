@@ -8,6 +8,7 @@ from .models import Comment, UploadedFile
 from .forms import UploadFileForm
 from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
+import os
 
 def index(request):
     return 'ermmm'
@@ -35,7 +36,7 @@ def comments(request):
         try: 
             username = request.user.username
         except:
-            pass
+            username = 'Guest'
         Comment.objects.create(text=text, user=username)    # Create a new comment object without validation
         return redirect('comments')          # Redirect back to the comments page
     
@@ -74,3 +75,17 @@ def upload_file(request):
     else:
         form = UploadFileForm()
     return render(request, 'file_upload/upload.html', {'form': form})
+
+def lfi(request):
+    page = request.GET.get('page')
+    if page:
+        try:
+            # Vulnerable code: includes file based on user input
+            print('os.path.join(os.path.dirname(__file__), page)')
+            with open(os.path.join(os.path.dirname(__file__), page), 'r') as file:
+                content = file.read()
+            return HttpResponse(content, content_type='text/plain')
+        except FileNotFoundError:
+            return HttpResponse('File not found', status=404)
+    else:
+        return render(request, 'lfi.html')

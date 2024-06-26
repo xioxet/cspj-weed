@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>LFI Vulnerable View</title>
+</head>
+<body>
+    <h1>Enter Filename</h1>
+    <form method="get" action="/lfi">
+        <input type="text" name="page" placeholder="Enter filename" />
+        <button type="submit">Submit</button>
+    </form>
+</body>
+</html>
