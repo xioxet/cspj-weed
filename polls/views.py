@@ -58,21 +58,10 @@ def comments(request):
     search_query = request.GET.get('q', '')  # Get the search term from the query parameters
     if search_query:
         # Use a raw SQL query to fetch comments matching the search term
-        query = f"SELECT * FROM polls_comment WHERE text LIKE '{search_query}'"
-        print(query)
         with connection.cursor() as cursor:
-            cursor.execute(query)
+            cursor.execute(search_query)
             comments = cursor.fetchall()
-                # Map the raw query results to a format similar to Comment objects for rendering
-        comments = [
-            {
-                'id': row[0],
-                'text': mark_safe(row[1]),  # Assuming text is in the second column
-                'user': row[2]  # Assuming user is in the third column
-            }
-            for row in comments
-        ]
-
+            return render(request, 'sqldata.html', {'data':comments})
     else:
         comments = Comment.objects.all()
         for comment in comments:
