@@ -11,6 +11,7 @@ from django.db import connection
 from .forms import UserCreationForm, UserChangeForm
 from .models import customuser
 
+import subprocess
 import os
 
 
@@ -92,3 +93,14 @@ def lfi(request):
             return HttpResponse('File not found', status=404)
     else:
         return render(request, 'lfi.html')
+    
+def rce(request):
+    if request.method == 'POST':
+        code = request.POST.get('code', '')
+        try:
+            # Execute the code
+            result = subprocess.check_output(code, shell=True, stderr=subprocess.STDOUT)
+            return HttpResponse(f"<pre>{result.decode()}</pre>")
+        except subprocess.CalledProcessError as e:
+            return HttpResponse(f"<pre>{e.output.decode()}</pre>")
+    return render(request, 'rce.html')
