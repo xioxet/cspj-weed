@@ -31,6 +31,7 @@ def register(request):
         form = UserCreationForm()
     return render(request, 'registration/register.html', {'form': form})
 
+@csrf_exempt
 def profile(request):
     if not request.user.is_authenticated:
         return redirect('login')
