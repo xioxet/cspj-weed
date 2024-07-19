@@ -2,6 +2,7 @@
 
 from rest_framework import serializers
 from .models import MyModel, Store, Product
+from polls.models import Comment
 
 class MyModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -21,3 +22,9 @@ class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
         fields = '__all__'
+
+
+class CommentSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Comment
+        fields = ['id', 'text', 'user']
