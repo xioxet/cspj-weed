@@ -2,7 +2,7 @@
 
 from rest_framework import serializers
 from .models import MyModel, Store, Product
-from polls.models import Comment
+from polls.models import Comment, customuser
 
 class MyModelSerializer(serializers.ModelSerializer):
     class Meta:
@@ -28,3 +28,8 @@ class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
         fields = ['id', 'text', 'user']
+
+class UserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = customuser
+        fields = ['id', 'email', 'first_name', 'last_name', 'is_staff']
