@@ -32,4 +32,4 @@ class CommentSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = customuser
-        fields = ['id', 'email', 'first_name', 'last_name', 'is_staff']
+        fields = '__all__'
