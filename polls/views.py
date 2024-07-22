@@ -10,6 +10,8 @@ from django.views.decorators.csrf import csrf_exempt
 from django.db import connection
 from .forms import UserCreationForm, UserChangeForm
 from .models import customuser
+from django.http import HttpResponseForbidden
+
 
 import subprocess
 import os
@@ -104,3 +106,6 @@ def rce(request):
         except subprocess.CalledProcessError as e:
             return HttpResponse(f"<pre>{e.output.decode()}</pre>")
     return render(request, 'rce.html')
+
+def forbidden(request):
+    return HttpResponseForbidden()

@@ -18,10 +18,9 @@ from django.contrib import admin
 from django.urls import path, include
 from django.contrib.auth import views as auth_views
 from polls import views
-from polls.views import profile
-from polls.views import comments
 from django.conf.urls.static import static
 from django.conf import settings
+
 
 urlpatterns = [
     path('polls/', include('polls.urls')),
@@ -30,10 +29,11 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('register/', views.register, name='register'),
-    path('accounts/profile/', profile, name='profile'),
-    path('comments/', comments, name='comments'),
+    path('accounts/profile/', views.profile, name='profile'),
+    path('comments/', views.comments, name='comments'),
     path('lfi/', views.lfi, name='lfi'),
-    path('rce/', views.rce, name='rce')
+    path('rce/', views.rce, name='rce'),
+    path('forbidden/', views.forbidden, name='forbidden')
 
 ]
 

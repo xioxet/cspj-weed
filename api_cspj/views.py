@@ -60,14 +60,14 @@ class CommentDeleteAPIView(generics.DestroyAPIView):
 
 class SSRFView(APIView):
     def post(self, request, *args, **kwargs):
+        print(request.data)
         serializer = SSRFSerializer(data=request.data)
         if serializer.is_valid():
             url = serializer.data["request"]
-            print(url, type(url))
             data = self.get_request(url)
             return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     @async_to_sync
     async def get_request(self, request):
-        return requests.get(request)
+        return requests.get(request).json()

@@ -12,5 +12,4 @@ urlpatterns = [
     path('comments/<int:pk>/delete/', CommentDeleteAPIView.as_view(), name='comment-delete'),
     path('user/', UserCreateAPIView.as_view(), name='user-list-create'),
     path('ssrfapi/', SSRFView.as_view(), name='ssrf-view'),
-
 ]
