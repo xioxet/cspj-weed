@@ -33,3 +33,6 @@ class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = customuser
         fields = '__all__'
+
+class SSRFSerializer(serializers.Serializer):
+    request = serializers.URLField()
