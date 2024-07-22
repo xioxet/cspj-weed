@@ -64,7 +64,10 @@ class SSRFView(APIView):
         serializer = SSRFSerializer(data=request.data)
         if serializer.is_valid():
             url = serializer.data["request"]
+            if "forbidden" in url:
+                return Response({'request':'Forbidden 403'})
             data = self.get_request(url)
+            print(data)
             return Response(data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
