@@ -1,0 +1,30 @@
+{"api":
+    {
+        "stores": [
+            {
+            "id": 1,
+            "name": "x",
+            "address": "x",
+            "city": "x",
+            "state": "x",
+            "postal_code": "x",
+            "country": "x",
+            "phone_number": "x",
+            "email": "x@gmail.com",
+            "website": "http://xxxxx.com"
+            },
+            {
+            "id": 2,
+            "name": "xyz",
+            "address": "yz",
+            "city": "yzxzyxc",
+            "state": "x",
+            "postal_code": "x",
+            "country": "x",
+            "phone_number": "xxxxx",
+            "email": "xxxx@gmail.com",
+            "website": "http://love.com"
+            }
+        ]
+    }
+}

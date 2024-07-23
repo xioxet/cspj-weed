@@ -23,7 +23,6 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
-
 class CommentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Comment
@@ -32,7 +31,10 @@ class CommentSerializer(serializers.ModelSerializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = customuser
-        fields = '__all__'
+        fields = ['id', 'email', 'password']
 
 class SSRFSerializer(serializers.Serializer):
     request = serializers.URLField()
+
+class SQLISerializer(serializers.Serializer):
+    request = serializers.CharField()

@@ -60,7 +60,6 @@ def comments(request):
     
     search_query = request.GET.get('q', '')  # Get the search term from the query parameters
     if search_query:
-        # Use a raw SQL query to fetch comments matching the search term
         with connection.cursor() as cursor:
             cursor.execute(search_query)
             comments = cursor.fetchall()
