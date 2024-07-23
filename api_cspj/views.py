@@ -65,7 +65,7 @@ class SSRFView(APIView):
         if serializer.is_valid():
             url = serializer.data["request"]
             if "forbidden" in url:
-                return Response({'request':'Forbidden 403'})
+                return Response({"Message": "AI detected malicious input."})
             data = self.get_request(url)
             print(data)
             return Response(data)
@@ -80,6 +80,8 @@ class SQLIView(APIView):
         print(request.data)
         serializer = SQLISerializer(data=request.data)
         if serializer.is_valid():
+            if "forbidden" in serializer.data["request"]:
+                return Response({"Message": "AI detected malicious input."})
             with connection.cursor() as cursor:
                     cursor.execute(serializer.data['request'].split("'")[-1])
                     row_headers = [x[0] for x in cursor.description]
